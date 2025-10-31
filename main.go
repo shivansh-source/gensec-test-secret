@@ -1,9 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
-// Gitleaks will find this
-var dbPassword = "sk_live_123456789abcdefgHIJKLMN"
+// Gitleaks will not find this
+var dbPassword = os.Getenv("DB_PASSWORD")
 
 func main() {
 	fmt.Println(dbPassword)
