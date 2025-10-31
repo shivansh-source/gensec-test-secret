@@ -35,5 +35,7 @@ func main() {
 	})
 
 	log.Println("Starting server on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	certFile := "server.crt"
+	keyFile := "server.key"
+	log.Fatal(http.ListenAndServeTLS(":8080", certFile, keyFile, nil))
 }
