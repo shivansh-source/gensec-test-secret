@@ -21,12 +21,11 @@ func main() {
 	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
 		userID := r.URL.Query().Get("id")
 
-		// VULNERABILITY 2: SQL Injection (Found by Semgrep)
-		// User input is directly added to the SQL query.
-		query := "SELECT username FROM users WHERE user_id = '" + userID + "'"
+		// Fix SQL Injection vulnerability by using parameterized queries
+		query := "SELECT username FROM users WHERE user_id = ?"
 		
 		var username string
-		err := db.QueryRow(query).Scan(&username)
+		err := db.QueryRow(query, userID).Scan(&username)
 		if err != nil {
 			http.Error(w, "User not found", http.StatusNotFound)
 			return
